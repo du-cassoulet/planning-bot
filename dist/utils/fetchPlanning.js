@@ -14,10 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchPlanningFontainebleau = exports.fetchPlanningSenart = void 0;
 const constants_1 = require("../constants");
+const axios_1 = __importDefault(require("axios"));
+const moment_1 = __importDefault(require("moment"));
 const puppeteer_1 = require("puppeteer");
 const he_1 = __importDefault(require("he"));
 const dev = process.argv.includes("--dev");
-function fetchPlanningSenart() {
+function fetchPlanningSenart(nextWeek) {
     return __awaiter(this, void 0, void 0, function* () {
         const browser = yield (0, puppeteer_1.launch)({
             headless: dev ? false : "new",
@@ -25,8 +27,11 @@ function fetchPlanningSenart() {
         const page = yield browser.newPage();
         yield page.goto("https://dynasis.iutsf.org/index.php?group_id=6&id=14");
         const weekButton = yield page.waitForSelector(constants_1.Senart.WEEK_BUTTON);
-        if (weekButton)
-            yield weekButton.click();
+        yield (weekButton === null || weekButton === void 0 ? void 0 : weekButton.click());
+        for (let i = 0; i < nextWeek; i++) {
+            const nextWeekButton = yield page.waitForSelector(constants_1.Senart.NEXT_BUTTON);
+            yield (nextWeekButton === null || nextWeekButton === void 0 ? void 0 : nextWeekButton.click());
+        }
         yield page.waitForSelector(constants_1.Senart.TABLE_CONTAINER);
         const rawClasses = yield page.evaluate(({ TABLE_CONTAINER, DAY_CONTENT, CLASS_TIME, CLASS_CONTENT }) => {
             var _a, _b;
@@ -77,21 +82,44 @@ function fetchPlanningSenart() {
             };
         });
         yield browser.close();
-        return classes;
+        return {
+            planning: classes,
+            url: "https://dynasis.iutsf.org/index.php?group_id=6&id=14",
+        };
     });
 }
 exports.fetchPlanningSenart = fetchPlanningSenart;
-function fetchPlanningFontainebleau() {
+function fetchPlanningFontainebleau(nextWeek, id, group) {
     return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield (0, puppeteer_1.launch)({
-            headless: dev ? false : "new",
+        const startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
+            .startOf("week")
+            .toDate();
+        const endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
+            .endOf("week")
+            .toDate();
+        const formatedStart = startOfWeek.toJSON().slice(0, -5);
+        const formatedEnd = endOfWeek.toJSON().slice(0, -5);
+        const { data } = yield axios_1.default.get(`http://www.iut-fbleau.fr/EDT/consulter/ajax/ep.php?p=${id}&start=${encodeURIComponent(formatedStart)}&end=${encodeURIComponent(formatedEnd)}`);
+        const rawClasses = data
+            .filter((d) => d.numero === group.toString())
+            .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+        const classes = rawClasses.map((c) => {
+            const start = new Date(c.start);
+            const end = new Date(c.end);
+            return {
+                day: start.getDay(),
+                time: {
+                    startHours: start.getHours(),
+                    startMin: start.getMinutes(),
+                    endHours: end.getHours(),
+                    endMin: end.getMinutes(),
+                },
+                title: c.title,
+                room: c.salle,
+                details: c.nomADE + ` (Grp.${c.numero})`,
+            };
         });
-        const page = yield browser.newPage();
-        yield page.goto("http://www.iut-fbleau.fr/EDT/consulter/");
-        const weekButton = yield page.waitForSelector(constants_1.Fontainebleau.WEEK_BUTTON);
-        if (weekButton)
-            yield weekButton.click();
+        return { planning: classes, url: "http://www.iut-fbleau.fr/EDT/consulter" };
     });
 }
 exports.fetchPlanningFontainebleau = fetchPlanningFontainebleau;
-fetchPlanningFontainebleau();

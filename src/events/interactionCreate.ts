@@ -2,13 +2,13 @@ import Discord from "discord.js";
 import Event from "../classes/Event";
 
 export default new Event(
-  Discord.Events.InteractionCreate,
-  async (client, slash: Discord.Interaction) => {
-    if (!slash.isChatInputCommand()) return;
+	Discord.Events.InteractionCreate,
+	async (client, slash: Discord.Interaction) => {
+		if (!slash.isChatInputCommand()) return;
 
-    const command = client.commands.get(slash.commandName);
-    if (!command?.execute) return;
+		const command = client.commands.get(slash.commandName);
+		if (!command?.execute) return;
 
-    return command.execute(client, slash);
-  }
+		return command.execute(client, slash);
+	}
 );
