@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.COLOR_NUMBER = exports.DAY_LABEL_SPACE = exports.TIME_LABEL_SPACE = exports.TIME_HEIGHT = exports.DAY_WIDTH = exports.START_HOUR = exports.HOURS = exports.DAYS = exports.CLASS_CONTENT = exports.CLASS_TIME = exports.TABLE_CONTAINER = exports.DAY_CONTENT = exports.WEEK_BUTTON = void 0;
+exports.WEEK_BUTTON = "button.fc-agendaWeek-button.fc-button.fc-state-default.fc-corner-left";
+exports.DAY_CONTENT = "div.fc-content-col div.fc-event-container:not(.fc-helper-container)";
+exports.TABLE_CONTAINER = "div.fc-content-skeleton table tbody tr";
+exports.CLASS_TIME = "div.fc-time";
+exports.CLASS_CONTENT = "div.fc-title";
+exports.DAYS = 5;
+exports.HOURS = 10;
+exports.START_HOUR = 8;
+exports.DAY_WIDTH = 350;
+exports.TIME_HEIGHT = 150;
+exports.TIME_LABEL_SPACE = 150;
+exports.DAY_LABEL_SPACE = 75;
+exports.COLOR_NUMBER = 12;
