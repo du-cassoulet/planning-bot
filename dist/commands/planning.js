@@ -23,7 +23,7 @@ exports.default = new Command_1.default()
     .setData((slash) => slash.setName("planning").setDescription("Pour avoir l'emploi du temps"))
     .setExecute((client, slash) => __awaiter(void 0, void 0, void 0, function* () {
     yield slash.deferReply({ ephemeral: true });
-    const planning = yield (0, fetchPlanning_1.default)(...Groups.INFO);
+    const planning = yield (0, fetchPlanning_1.default)(...Groups.INFO_1);
     const canvas = (0, makeCanvas_1.default)(planning);
     return slash.editReply({
         files: [

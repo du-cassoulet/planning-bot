@@ -14,7 +14,7 @@ export default new Command()
   .setExecute(async (client, slash) => {
     await slash.deferReply({ ephemeral: true });
 
-    const planning = await fetchPlanning(...Groups.INFO);
+    const planning = await fetchPlanning(...Groups.INFO_1);
     const canvas = makeCanvas(planning);
 
     return slash.editReply({
