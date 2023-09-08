@@ -1,12 +1,17 @@
-export const WEEK_BUTTON =
-  "button.fc-agendaWeek-button.fc-button.fc-state-default.fc-corner-left";
+export const Senart = Object.freeze({
+  WEEK_BUTTON:
+    "button.fc-agendaWeek-button.fc-button.fc-state-default.fc-corner-left",
+  DAY_CONTENT:
+    "div.fc-content-col div.fc-event-container:not(.fc-helper-container)",
+  TABLE_CONTAINER: "div.fc-content-skeleton table tbody tr",
+  CLASS_TIME: "div.fc-time",
+  CLASS_CONTENT: "div.fc-title",
+});
 
-export const DAY_CONTENT =
-  "div.fc-content-col div.fc-event-container:not(.fc-helper-container)";
-
-export const TABLE_CONTAINER = "div.fc-content-skeleton table tbody tr";
-export const CLASS_TIME = "div.fc-time";
-export const CLASS_CONTENT = "div.fc-title";
+export const Fontainebleau = Object.freeze({
+  WEEK_BUTTON:
+    "button.fc-agendaWeek-button.fc-button.fc-state-default.fc-corner-right",
+});
 
 export const DAYS = 5;
 export const HOURS = 10;

@@ -12,21 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchPlanningFontainebleau = exports.fetchPlanningSenart = void 0;
 const constants_1 = require("../constants");
 const puppeteer_1 = require("puppeteer");
 const he_1 = __importDefault(require("he"));
 const dev = process.argv.includes("--dev");
-function fetchPlanning(groupId, id) {
+function fetchPlanningSenart() {
     return __awaiter(this, void 0, void 0, function* () {
         const browser = yield (0, puppeteer_1.launch)({
             headless: dev ? false : "new",
         });
         const page = yield browser.newPage();
-        yield page.goto(`https://dynasis.iutsf.org/index.php?group_id=${groupId}&id=${id}`);
-        const weekButton = yield page.waitForSelector(constants_1.WEEK_BUTTON);
+        yield page.goto("https://dynasis.iutsf.org/index.php?group_id=6&id=14");
+        const weekButton = yield page.waitForSelector(constants_1.Senart.WEEK_BUTTON);
         if (weekButton)
             yield weekButton.click();
-        yield page.waitForSelector(constants_1.TABLE_CONTAINER);
+        yield page.waitForSelector(constants_1.Senart.TABLE_CONTAINER);
         const rawClasses = yield page.evaluate(({ TABLE_CONTAINER, DAY_CONTENT, CLASS_TIME, CLASS_CONTENT }) => {
             var _a, _b;
             const classes = [];
@@ -64,7 +65,7 @@ function fetchPlanning(groupId, id) {
                 }
             }
             return classes;
-        }, { TABLE_CONTAINER: constants_1.TABLE_CONTAINER, DAY_CONTENT: constants_1.DAY_CONTENT, CLASS_TIME: constants_1.CLASS_TIME, CLASS_CONTENT: constants_1.CLASS_CONTENT });
+        }, constants_1.Senart);
         const classes = rawClasses.map((c) => {
             const [titleHTML, roomHTML, detailsHTML] = c.textHTML.split("\n");
             return {
@@ -79,4 +80,18 @@ function fetchPlanning(groupId, id) {
         return classes;
     });
 }
-exports.default = fetchPlanning;
+exports.fetchPlanningSenart = fetchPlanningSenart;
+function fetchPlanningFontainebleau() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const browser = yield (0, puppeteer_1.launch)({
+            headless: dev ? false : "new",
+        });
+        const page = yield browser.newPage();
+        yield page.goto("http://www.iut-fbleau.fr/EDT/consulter/");
+        const weekButton = yield page.waitForSelector(constants_1.Fontainebleau.WEEK_BUTTON);
+        if (weekButton)
+            yield weekButton.click();
+    });
+}
+exports.fetchPlanningFontainebleau = fetchPlanningFontainebleau;
+fetchPlanningFontainebleau();

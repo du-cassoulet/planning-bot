@@ -1,10 +1,4 @@
-import {
-  CLASS_CONTENT,
-  CLASS_TIME,
-  DAY_CONTENT,
-  TABLE_CONTAINER,
-  WEEK_BUTTON,
-} from "../constants";
+import { Fontainebleau, Senart } from "../constants";
 
 import { launch } from "puppeteer";
 import he from "he";
@@ -12,21 +6,18 @@ import { RawClass } from "../types";
 
 const dev = process.argv.includes("--dev");
 
-export default async function fetchPlanning(groupId: number, id: number) {
+export async function fetchPlanningSenart() {
   const browser = await launch({
     headless: dev ? false : "new",
   });
 
   const page = await browser.newPage();
+  await page.goto("https://dynasis.iutsf.org/index.php?group_id=6&id=14");
 
-  await page.goto(
-    `https://dynasis.iutsf.org/index.php?group_id=${groupId}&id=${id}`
-  );
-
-  const weekButton = await page.waitForSelector(WEEK_BUTTON);
+  const weekButton = await page.waitForSelector(Senart.WEEK_BUTTON);
   if (weekButton) await weekButton.click();
 
-  await page.waitForSelector(TABLE_CONTAINER);
+  await page.waitForSelector(Senart.TABLE_CONTAINER);
   const rawClasses = await page.evaluate(
     ({ TABLE_CONTAINER, DAY_CONTENT, CLASS_TIME, CLASS_CONTENT }) => {
       const classes: RawClass[] = [];
@@ -36,6 +27,7 @@ export default async function fetchPlanning(groupId: number, id: number) {
       for (let i = 1; i < table.children.length; i++) {
         const dayPath =
           TABLE_CONTAINER + ` td:nth-child(${i + 1}) ` + DAY_CONTENT;
+
         const dayElement = document.querySelector(dayPath);
         if (!dayElement) break;
 
@@ -78,7 +70,7 @@ export default async function fetchPlanning(groupId: number, id: number) {
 
       return classes;
     },
-    { TABLE_CONTAINER, DAY_CONTENT, CLASS_TIME, CLASS_CONTENT }
+    Senart
   );
 
   const classes = rawClasses.map((c) => {
@@ -97,3 +89,17 @@ export default async function fetchPlanning(groupId: number, id: number) {
 
   return classes;
 }
+
+export async function fetchPlanningFontainebleau() {
+  const browser = await launch({
+    headless: dev ? false : "new",
+  });
+
+  const page = await browser.newPage();
+  await page.goto("http://www.iut-fbleau.fr/EDT/consulter/");
+
+  const weekButton = await page.waitForSelector(Fontainebleau.WEEK_BUTTON);
+  if (weekButton) await weekButton.click();
+}
+
+fetchPlanningFontainebleau();

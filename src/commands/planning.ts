@@ -1,11 +1,7 @@
 import Discord from "discord.js";
 import Command from "../classes/Command";
-import fetchPlanning from "../utils/fetchPlanning";
+import { fetchPlanningSenart } from "../utils/fetchPlanning";
 import makeCanvas from "../utils/makeCanvas";
-
-const Groups: { [key: string]: [number, number] } = Object.freeze({
-  INFO: [6, 14],
-});
 
 export default new Command()
   .setData((slash) =>
@@ -14,7 +10,7 @@ export default new Command()
   .setExecute(async (client, slash) => {
     await slash.deferReply({ ephemeral: true });
 
-    const planning = await fetchPlanning(...Groups.INFO_1);
+    const planning = await fetchPlanningSenart();
     const canvas = makeCanvas(planning);
 
     return slash.editReply({

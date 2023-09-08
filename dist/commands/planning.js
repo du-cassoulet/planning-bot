@@ -14,16 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = __importDefault(require("discord.js"));
 const Command_1 = __importDefault(require("../classes/Command"));
-const fetchPlanning_1 = __importDefault(require("../utils/fetchPlanning"));
+const fetchPlanning_1 = require("../utils/fetchPlanning");
 const makeCanvas_1 = __importDefault(require("../utils/makeCanvas"));
-const Groups = Object.freeze({
-    INFO: [6, 14],
-});
 exports.default = new Command_1.default()
     .setData((slash) => slash.setName("planning").setDescription("Pour avoir l'emploi du temps"))
     .setExecute((client, slash) => __awaiter(void 0, void 0, void 0, function* () {
     yield slash.deferReply({ ephemeral: true });
-    const planning = yield (0, fetchPlanning_1.default)(...Groups.INFO_1);
+    const planning = yield (0, fetchPlanning_1.fetchPlanningSenart)();
     const canvas = (0, makeCanvas_1.default)(planning);
     return slash.editReply({
         files: [
