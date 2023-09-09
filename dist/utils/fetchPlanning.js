@@ -13,75 +13,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchPlanningFontainebleau = exports.fetchPlanningSenart = void 0;
-const constants_1 = require("../constants");
 const axios_1 = __importDefault(require("axios"));
 const moment_1 = __importDefault(require("moment"));
-const puppeteer_1 = require("puppeteer");
-const he_1 = __importDefault(require("he"));
-const dev = process.argv.includes("--dev");
-function fetchPlanningSenart(nextWeek) {
+function fetchPlanningSenart(nextWeek, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield (0, puppeteer_1.launch)({
-            headless: dev ? false : "new",
-        });
-        const page = yield browser.newPage();
-        yield page.goto("https://dynasis.iutsf.org/index.php?group_id=6&id=14");
-        const weekButton = yield page.waitForSelector(constants_1.Senart.WEEK_BUTTON);
-        yield (weekButton === null || weekButton === void 0 ? void 0 : weekButton.click());
-        for (let i = 0; i < nextWeek; i++) {
-            const nextWeekButton = yield page.waitForSelector(constants_1.Senart.NEXT_BUTTON);
-            yield (nextWeekButton === null || nextWeekButton === void 0 ? void 0 : nextWeekButton.click());
-        }
-        yield page.waitForSelector(constants_1.Senart.TABLE_CONTAINER);
-        const rawClasses = yield page.evaluate(({ TABLE_CONTAINER, DAY_CONTENT, CLASS_TIME, CLASS_CONTENT }) => {
-            var _a, _b;
-            const classes = [];
-            const table = document.querySelector(TABLE_CONTAINER);
-            if (!table)
-                return classes;
-            for (let i = 1; i < table.children.length; i++) {
-                const dayPath = TABLE_CONTAINER + ` td:nth-child(${i + 1}) ` + DAY_CONTENT;
-                const dayElement = document.querySelector(dayPath);
-                if (!dayElement)
-                    break;
-                for (let j = 0; j < dayElement.children.length; j++) {
-                    const classPath = dayPath +
-                        ` a.fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end:nth-child(${j + 1}) `;
-                    const timeElement = document.querySelector(classPath + CLASS_TIME);
-                    const titleElement = document.querySelector(classPath + CLASS_CONTENT);
-                    if (!timeElement || !titleElement)
-                        break;
-                    const timeString = timeElement.getAttribute("data-full");
-                    const groups = (_a = timeString === null || timeString === void 0 ? void 0 : timeString.match(/(?<sh>\d{2}):(?<sm>\d{2})\s-\s(?<eh>\d{2}):(?<em>\d{2})/)) === null || _a === void 0 ? void 0 : _a.groups;
-                    const startHours = Number(groups === null || groups === void 0 ? void 0 : groups.sh);
-                    const startMin = Number(groups === null || groups === void 0 ? void 0 : groups.sm);
-                    const endHours = Number(groups === null || groups === void 0 ? void 0 : groups.eh);
-                    const endMin = Number(groups === null || groups === void 0 ? void 0 : groups.em);
-                    classes.push({
-                        time: {
-                            startHours,
-                            startMin,
-                            endHours,
-                            endMin,
-                        },
-                        day: i,
-                        textHTML: (_b = titleElement.textContent) !== null && _b !== void 0 ? _b : "",
-                    });
-                }
-            }
-            return classes;
-        }, constants_1.Senart);
+        const { data } = yield axios_1.default.get(`https://dynasis.iutsf.org/index.php?group_id=6&id=${id}`);
+        const jsonData = `{${data.split("$('#calendar').fullCalendar({")[1].split("});")[0]}}`
+            .replace(/\/\/.*/g, "")
+            .replace(/"/g, '\\"')
+            .replace(/'/g, '"')
+            .replace(/(\w+):\s/g, '"$1": ');
+        const { events } = JSON.parse(jsonData);
+        const startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).startOf("week");
+        const endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).endOf("week");
+        const rawClasses = events.filter((event) => (0, moment_1.default)(event.start).isBetween(startOfWeek, endOfWeek));
         const classes = rawClasses.map((c) => {
-            const [titleHTML, roomHTML, detailsHTML] = c.textHTML.split("\n");
+            const start = new Date(c.start);
+            const end = new Date(c.end);
+            const lines = c.title.split("\r\n");
+            const title = lines[0].replace(/\s+/g, " ").trim();
+            const room = lines[1].replace(/\s+/g, " ").trim();
+            const details = lines[2].replace(/\s+/g, " ").trim();
             return {
-                day: c.day,
-                time: c.time,
-                title: he_1.default.decode(titleHTML).trim(),
-                room: he_1.default.decode(roomHTML).trim(),
-                details: he_1.default.decode(detailsHTML).trim().replace(/\s+/g, " "),
+                day: start.getDay(),
+                time: {
+                    startHours: start.getHours(),
+                    startMin: start.getMinutes(),
+                    endHours: end.getHours(),
+                    endMin: end.getMinutes(),
+                },
+                title,
+                room,
+                details,
             };
         });
-        yield browser.close();
         return {
             planning: classes,
             url: "https://dynasis.iutsf.org/index.php?group_id=6&id=14",

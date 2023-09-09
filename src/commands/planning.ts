@@ -2,19 +2,19 @@ import Discord from "discord.js";
 import Command from "../classes/Command";
 import makeCanvas from "../utils/makeCanvas";
 import { Campus, Promo } from "../types";
+import { MAX_WEEKS } from "../constants";
+import moment from "moment";
 
 import {
 	fetchPlanningFontainebleau,
 	fetchPlanningSenart,
 } from "../utils/fetchPlanning";
-import { MAX_WEEKS } from "../constants";
-import moment from "moment";
 
 const roles = {
 	[process.env.BUT1_SEN_ROLE_ID ?? ""]: {
 		type: Campus.Sen,
 		grp: 1,
-		id: null,
+		id: 14,
 		name: "BUT 1 Site Sénart",
 	},
 	[process.env.BUT1_FBL_GR1_ROLE_ID ?? ""]: {
@@ -115,7 +115,10 @@ export default new Command()
 			button: Discord.ButtonInteraction | null
 		) {
 			if (promo.type === Campus.Sen) {
-				var { planning, url } = await fetchPlanningSenart(nextWeek);
+				var { planning, url } = await fetchPlanningSenart(
+					nextWeek,
+					<number>promo.id
+				);
 			} else {
 				var { planning, url } = await fetchPlanningFontainebleau(
 					nextWeek,

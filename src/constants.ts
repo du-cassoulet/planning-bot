@@ -1,15 +1,3 @@
-export const Senart = Object.freeze({
-	WEEK_BUTTON:
-		"button.fc-agendaWeek-button.fc-button.fc-state-default.fc-corner-left",
-	DAY_CONTENT:
-		"div.fc-content-col div.fc-event-container:not(.fc-helper-container)",
-	NEXT_BUTTON:
-		"button.fc-next-button.fc-button.fc-state-default.fc-corner-right",
-	TABLE_CONTAINER: "div.fc-content-skeleton table tbody tr",
-	CLASS_TIME: "div.fc-time",
-	CLASS_CONTENT: "div.fc-title",
-});
-
 export const DAYS = 5;
 export const HOURS = 10;
 export const START_HOUR = 8;

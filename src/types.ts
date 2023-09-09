@@ -5,17 +5,49 @@ export enum Campus {
 	Fbl,
 }
 
+export type RawClassSenHeader = {
+	left: string;
+	center: string;
+	right: string;
+};
+
+export type RawClassSenEvent = {
+	title: string;
+	start: string;
+	end: string;
+};
+
+export type RawClassSen = {
+	header: RawClassSenHeader;
+	defaultDate: string;
+	defaultView: string;
+	scrollTime: string;
+	minTime: string;
+	maxTime: string;
+	navLinks: boolean;
+	locale: string;
+	noEventsMessage: string;
+	hiddenDays: number[];
+	editable: boolean;
+	eventLimit: boolean;
+	events: RawClassSenEvent[];
+};
+
+export type RawClassFbl = {
+	end: string;
+	nomADE: string;
+	numero: string;
+	resourceId: string;
+	salle: string;
+	start: string;
+	title: string;
+};
+
 export type ClassTime = {
 	startHours: number;
 	startMin: number;
 	endHours: number;
 	endMin: number;
-};
-
-export type RawClass = {
-	time: ClassTime;
-	day: number;
-	textHTML: string;
 };
 
 export type Class = {

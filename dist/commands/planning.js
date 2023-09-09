@@ -17,14 +17,14 @@ const discord_js_1 = __importDefault(require("discord.js"));
 const Command_1 = __importDefault(require("../classes/Command"));
 const makeCanvas_1 = __importDefault(require("../utils/makeCanvas"));
 const types_1 = require("../types");
-const fetchPlanning_1 = require("../utils/fetchPlanning");
 const constants_1 = require("../constants");
 const moment_1 = __importDefault(require("moment"));
+const fetchPlanning_1 = require("../utils/fetchPlanning");
 const roles = {
     [(_a = process.env.BUT1_SEN_ROLE_ID) !== null && _a !== void 0 ? _a : ""]: {
         type: types_1.Campus.Sen,
         grp: 1,
-        id: null,
+        id: 14,
         name: "BUT 1 Site Sénart",
     },
     [(_b = process.env.BUT1_FBL_GR1_ROLE_ID) !== null && _b !== void 0 ? _b : ""]: {
@@ -115,7 +115,7 @@ exports.default = new Command_1.default()
     function makePlanning(promo, nextWeek, button) {
         return __awaiter(this, void 0, void 0, function* () {
             if (promo.type === types_1.Campus.Sen) {
-                var { planning, url } = yield (0, fetchPlanning_1.fetchPlanningSenart)(nextWeek);
+                var { planning, url } = yield (0, fetchPlanning_1.fetchPlanningSenart)(nextWeek, promo.id);
             }
             else {
                 var { planning, url } = yield (0, fetchPlanning_1.fetchPlanningFontainebleau)(nextWeek, promo.id, promo.grp);
