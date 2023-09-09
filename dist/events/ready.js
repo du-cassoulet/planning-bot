@@ -57,9 +57,6 @@ exports.default = new Event_1.default(discord_js_1.default.Events.ClientReady, (
             else {
                 var { planning } = yield (0, fetchPlanning_1.fetchPlanningFontainebleau)(-1, role.id, role.grp);
             }
-            planning = planning.sort((a, b) => a.time.startHours +
-                a.time.startMin / 60 -
-                (b.time.endHours + b.time.endMin / 60));
             if (Object.keys(rolePlannings).length < Object.keys(roles_1.default).length) {
                 return (rolePlannings[roleId] = planning);
             }

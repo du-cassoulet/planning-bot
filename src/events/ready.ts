@@ -68,19 +68,11 @@ export default new Event(Discord.Events.ClientReady, async (client) => {
 				);
 			}
 
-			planning = planning.sort(
-				(a, b) =>
-					a.time.startHours +
-					a.time.startMin / 60 -
-					(b.time.endHours + b.time.endMin / 60)
-			);
-
 			if (Object.keys(rolePlannings).length < Object.keys(roles).length) {
 				return (rolePlannings[roleId] = planning);
 			}
 
 			const changes = detectPlanningChanges(rolePlannings[roleId], planning);
-
 			rolePlannings[roleId] = [...planning];
 
 			if (changes.length > 0) {
