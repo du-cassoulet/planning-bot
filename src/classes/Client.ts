@@ -3,9 +3,12 @@ import Command from "./Command";
 import fs from "fs";
 import path from "path";
 import Event from "./Event";
+import mongoose from "mongoose";
+import Modal from "./Modal";
 
 export default class Client extends Discord.Client {
 	public commands: Discord.Collection<string, Command>;
+	public modals: Discord.Collection<string, Modal>;
 
 	constructor() {
 		const intents = [
@@ -17,9 +20,10 @@ export default class Client extends Discord.Client {
 		super({ intents });
 
 		this.commands = new Discord.Collection();
+		this.modals = new Discord.Collection();
 	}
 
-	private fetchCommands(root = path.join(__dirname, "../commands")) {
+	private fetchData(root: string, collection: Discord.Collection<string, any>) {
 		const dirs = fs.readdirSync(root);
 
 		dirs.forEach((dir) => {
@@ -28,12 +32,23 @@ export default class Client extends Discord.Client {
 			if (fs.lstatSync(dirPath).isDirectory()) {
 				return this.fetchCommands(dirPath);
 			} else {
-				const command: Command = require(dirPath).default;
-				if (!command.data) return;
+				const element = require(dirPath).default;
+				if (!element.data) return;
 
-				return this.commands.set(command.data.name, command);
+				return collection.set(
+					element.data.name ?? element.data.data?.custom_id,
+					element
+				);
 			}
 		});
+	}
+
+	private fetchCommands(root = path.join(__dirname, "../commands")) {
+		this.fetchData(root, this.commands);
+	}
+
+	private fetchModals(root = path.join(__dirname, "../modals")) {
+		this.fetchData(root, this.modals);
 	}
 
 	private fetchEvents(root = path.join(__dirname, "../events")) {
@@ -54,9 +69,22 @@ export default class Client extends Discord.Client {
 		});
 	}
 
-	public start(token?: string) {
+	private async connectDb() {
+		const start = Date.now();
+
+		await mongoose.connect(
+			`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@planning.9xatjwi.mongodb.net/?retryWrites=true&w=majority`
+		);
+
+		console.log(`Connected to the database in ${Date.now() - start}ms.`);
+	}
+
+	public async start(token?: string) {
 		this.fetchEvents();
 		this.fetchCommands();
+		this.fetchModals();
+
+		await this.connectDb();
 
 		this.login(token);
 	}

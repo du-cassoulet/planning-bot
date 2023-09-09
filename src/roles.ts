@@ -1,0 +1,88 @@
+import { Campus } from "./types";
+
+export default {
+	[process.env.BUT1_SEN_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 1,
+		id: 14,
+		name: "BUT 1 Site Sénart",
+		url: "https://dynasis.iutsf.org/index.php?group_id=6&id=14",
+	},
+	[process.env.BUT1_FBL_GR1_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 1,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 1",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT1_FBL_GR2_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 2,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 2",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT1_FBL_GR3_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 3,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 3",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT1_FBL_GR4_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 4,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 4",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT1_FBL_GR5_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 5,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 5",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT1_FBL_GR6_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 6,
+		id: 50,
+		name: "BUT 1 Site Fontainebleau Groupe 6",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT2FA_FBL_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 1,
+		id: 52,
+		name: "BUT 2 Fa",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT2FI_FBL_GR1_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 1,
+		id: 51,
+		name: "BUT 2 Fi Groupe 1",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT2FI_FBL_GR2_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 2,
+		id: 51,
+		name: "BUT 2 Fi Groupe 2",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT2FI_FBL_GR3_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 3,
+		id: 51,
+		name: "BUT 2 Fi Groupe 3",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+	[process.env.BUT3_FBL_ROLE_ID ?? ""]: {
+		type: Campus.Sen,
+		grp: 1,
+		id: 53,
+		name: "BUT 3",
+		url: "http://www.iut-fbleau.fr/EDT/consulter",
+	},
+};

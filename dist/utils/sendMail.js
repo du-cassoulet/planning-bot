@@ -12,19 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = __importDefault(require("discord.js"));
-const Event_1 = __importDefault(require("../classes/Event"));
-exports.default = new Event_1.default(discord_js_1.default.Events.InteractionCreate, (client, slash) => __awaiter(void 0, void 0, void 0, function* () {
-    if (slash.isChatInputCommand()) {
-        const command = client.commands.get(slash.commandName);
-        if (!(command === null || command === void 0 ? void 0 : command.execute))
-            return;
-        return command.execute({ client, slash });
-    }
-    else if (slash.isModalSubmit()) {
-        const modal = client.modals.get(slash.customId);
-        if (!(modal === null || modal === void 0 ? void 0 : modal.execute))
-            return;
-        return modal.execute({ client, slash });
-    }
-}));
+require("dotenv/config");
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const transporter = nodemailer_1.default.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
+function sendMail(to, { subject, html }) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return transporter.sendMail({ to: to.join(","), subject, html });
+    });
+}
+exports.default = sendMail;

@@ -20,8 +20,13 @@ export async function fetchPlanningSenart(
 
 	const { events }: RawClassSen = JSON.parse(jsonData);
 
-	const startOfWeek = moment(Date.now() + 6.048e8 * nextWeek).startOf("week");
-	const endOfWeek = moment(Date.now() + 6.048e8 * nextWeek).endOf("week");
+	if (nextWeek < 0) {
+		var startOfWeek = moment().startOf("week");
+		var endOfWeek = moment().startOf("week").add(6, "month");
+	} else {
+		var startOfWeek = moment(Date.now() + 6.048e8 * nextWeek).startOf("week");
+		var endOfWeek = moment(Date.now() + 6.048e8 * nextWeek).endOf("week");
+	}
 
 	const rawClasses = events.filter((event) =>
 		moment(event.start).isBetween(startOfWeek, endOfWeek)
@@ -38,6 +43,7 @@ export async function fetchPlanningSenart(
 
 		return {
 			day: start.getDay(),
+			date: moment(start).format("Do MMMM"),
 			time: {
 				startHours: start.getHours(),
 				startMin: start.getMinutes(),
@@ -61,13 +67,18 @@ export async function fetchPlanningFontainebleau(
 	id: number,
 	group: number
 ): Promise<{ planning: Class[]; url: string }> {
-	const startOfWeek = moment(Date.now() + 6.048e8 * nextWeek)
-		.startOf("week")
-		.toDate();
+	if (nextWeek < 0) {
+		var startOfWeek = moment().startOf("week").toDate();
+		var endOfWeek = moment().startOf("week").add(6, "month").toDate();
+	} else {
+		var startOfWeek = moment(Date.now() + 6.048e8 * nextWeek)
+			.startOf("week")
+			.toDate();
 
-	const endOfWeek = moment(Date.now() + 6.048e8 * nextWeek)
-		.endOf("week")
-		.toDate();
+		var endOfWeek = moment(Date.now() + 6.048e8 * nextWeek)
+			.endOf("week")
+			.toDate();
+	}
 
 	const formatedStart = startOfWeek.toJSON().slice(0, -5);
 	const formatedEnd = endOfWeek.toJSON().slice(0, -5);
@@ -91,6 +102,7 @@ export async function fetchPlanningFontainebleau(
 
 		return {
 			day: start.getDay(),
+			date: moment(start).format("Do MMMM"),
 			time: {
 				startHours: start.getHours(),
 				startMin: start.getMinutes(),

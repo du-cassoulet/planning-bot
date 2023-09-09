@@ -24,8 +24,14 @@ function fetchPlanningSenart(nextWeek, id) {
             .replace(/'/g, '"')
             .replace(/(\w+):\s/g, '"$1": ');
         const { events } = JSON.parse(jsonData);
-        const startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).startOf("week");
-        const endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).endOf("week");
+        if (nextWeek < 0) {
+            var startOfWeek = (0, moment_1.default)().startOf("week");
+            var endOfWeek = (0, moment_1.default)().startOf("week").add(6, "month");
+        }
+        else {
+            var startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).startOf("week");
+            var endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek).endOf("week");
+        }
         const rawClasses = events.filter((event) => (0, moment_1.default)(event.start).isBetween(startOfWeek, endOfWeek));
         const classes = rawClasses.map((c) => {
             const start = new Date(c.start);
@@ -36,6 +42,7 @@ function fetchPlanningSenart(nextWeek, id) {
             const details = lines[2].replace(/\s+/g, " ").trim();
             return {
                 day: start.getDay(),
+                date: (0, moment_1.default)(start).format("Do MMMM"),
                 time: {
                     startHours: start.getHours(),
                     startMin: start.getMinutes(),
@@ -56,12 +63,18 @@ function fetchPlanningSenart(nextWeek, id) {
 exports.fetchPlanningSenart = fetchPlanningSenart;
 function fetchPlanningFontainebleau(nextWeek, id, group) {
     return __awaiter(this, void 0, void 0, function* () {
-        const startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
-            .startOf("week")
-            .toDate();
-        const endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
-            .endOf("week")
-            .toDate();
+        if (nextWeek < 0) {
+            var startOfWeek = (0, moment_1.default)().startOf("week").toDate();
+            var endOfWeek = (0, moment_1.default)().startOf("week").add(6, "month").toDate();
+        }
+        else {
+            var startOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
+                .startOf("week")
+                .toDate();
+            var endOfWeek = (0, moment_1.default)(Date.now() + 6.048e8 * nextWeek)
+                .endOf("week")
+                .toDate();
+        }
         const formatedStart = startOfWeek.toJSON().slice(0, -5);
         const formatedEnd = endOfWeek.toJSON().slice(0, -5);
         const { data } = yield axios_1.default.get(`http://www.iut-fbleau.fr/EDT/consulter/ajax/ep.php?p=${id}&start=${encodeURIComponent(formatedStart)}&end=${encodeURIComponent(formatedEnd)}`);
@@ -73,6 +86,7 @@ function fetchPlanningFontainebleau(nextWeek, id, group) {
             const end = new Date(c.end);
             return {
                 day: start.getDay(),
+                date: (0, moment_1.default)(start).format("Do MMMM"),
                 time: {
                     startHours: start.getHours(),
                     startMin: start.getMinutes(),

@@ -56,6 +56,7 @@ export type Class = {
 	title: string;
 	room: string;
 	details: string;
+	date: string;
 };
 
 export type Promo = {
@@ -69,12 +70,43 @@ export type CommandData = (
 	slash: Discord.SlashCommandBuilder
 ) => Discord.SlashCommandBuilder;
 
-export type CommandExecute = (
-	client: Discord.Client,
-	slash: Discord.ChatInputCommandInteraction
-) => any;
+export type CommandExecute = (data: {
+	client: Discord.Client;
+	slash: Discord.ChatInputCommandInteraction;
+}) => any;
 
-export type AutocompleteExecute = (
-	client: Discord.Client,
-	slash: Discord.ChatInputCommandInteraction
-) => any;
+export type AutocompleteExecute = (data: {
+	client: Discord.Client;
+	slash: Discord.ChatInputCommandInteraction;
+}) => any;
+
+export type ModalData = (slash: Discord.ModalBuilder) => Discord.ModalBuilder;
+
+export type ModalExecute = (data: {
+	client: Discord.Client;
+	slash: Discord.ModalSubmitInteraction;
+}) => any;
+
+export type MailPayload = {
+	subject: string;
+	html: string;
+};
+
+export type UserData = {
+	discordId: string;
+	notifyByDiscord: boolean;
+	notifyByEmail: boolean;
+	email?: string | undefined;
+};
+
+export type ActionRow = Discord.ActionRowBuilder<any>;
+
+export enum ChangeType {
+	Added = "Added",
+	Removed = "Removed",
+}
+
+export type PlanningChange = {
+	type: ChangeType;
+	item: Class;
+};
