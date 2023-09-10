@@ -39,6 +39,6 @@ export default new Modal()
 			await doc.save();
 		}
 
-		client.emit(`emailUpdate-${slash.user.id}`);
+		client.emit(`emailUpdate-${slash.user.id}`, email);
 		await slash.deferUpdate();
 	});

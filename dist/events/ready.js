@@ -43,15 +43,12 @@ function isEqual(item1, item2) {
         item1.room === item2.room);
 }
 exports.default = new Event_1.default(discord_js_1.default.Events.ClientReady, (client) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a, _b, _c;
     console.log(`Logged as ${(_a = client.user) === null || _a === void 0 ? void 0 : _a.displayName}`);
-    const guild = client.guilds.cache.get((_b = process.env.GUILD_ID) !== null && _b !== void 0 ? _b : "");
-    if (!guild)
-        throw new Error("Failed to connect to the guild.");
-    yield guild.commands.set(client.commands.map((command) => command.data));
+    yield ((_c = (_b = client.application) === null || _b === void 0 ? void 0 : _b.commands) === null || _c === void 0 ? void 0 : _c.set(client.commands.map((command) => command.data)));
     function polling() {
         Object.entries(roles_1.default).forEach(([roleId, role]) => __awaiter(this, void 0, void 0, function* () {
-            if (role.type === types_1.Campus.Sen) {
+            if (role.campus === types_1.Campus.Sen) {
                 var { planning } = yield (0, fetchPlanning_1.fetchPlanningSenart)(-1, role.id);
             }
             else {

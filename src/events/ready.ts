@@ -47,10 +47,7 @@ function isEqual(item1: Class, item2: Class): boolean {
 export default new Event(Discord.Events.ClientReady, async (client) => {
 	console.log(`Logged as ${client.user?.displayName}`);
 
-	const guild = client.guilds.cache.get(process.env.GUILD_ID ?? "");
-	if (!guild) throw new Error("Failed to connect to the guild.");
-
-	await guild.commands.set(
+	await client.application?.commands?.set(
 		client.commands.map(
 			(command) => <Discord.ApplicationCommandDataResolvable>command.data
 		)
@@ -58,7 +55,7 @@ export default new Event(Discord.Events.ClientReady, async (client) => {
 
 	function polling(): any {
 		Object.entries(roles).forEach(async ([roleId, role]) => {
-			if (role.type === Campus.Sen) {
+			if (role.campus === Campus.Sen) {
 				var { planning } = await fetchPlanningSenart(-1, role.id);
 			} else {
 				var { planning } = await fetchPlanningFontainebleau(

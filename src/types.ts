@@ -1,4 +1,6 @@
 import Discord from "discord.js";
+import { CommandDetailsBuilder } from "./classes/Command";
+import Client from "./classes/Client";
 
 export enum Campus {
 	Sen,
@@ -60,7 +62,7 @@ export type Class = {
 };
 
 export type Promo = {
-	type: Campus;
+	campus: Campus;
 	grp: number;
 	id: number | null;
 	name: string;
@@ -70,14 +72,18 @@ export type CommandData = (
 	slash: Discord.SlashCommandBuilder
 ) => Discord.SlashCommandBuilder;
 
+export type CommandDetails = (
+	details: CommandDetailsBuilder
+) => CommandDetailsBuilder;
+
 export type CommandExecute = (data: {
-	client: Discord.Client;
+	client: Client;
 	slash: Discord.ChatInputCommandInteraction;
 }) => any;
 
 export type AutocompleteExecute = (data: {
-	client: Discord.Client;
-	slash: Discord.ChatInputCommandInteraction;
+	client: Client;
+	slash: Discord.AutocompleteInteraction;
 }) => any;
 
 export type ModalData = (slash: Discord.ModalBuilder) => Discord.ModalBuilder;
@@ -109,4 +115,10 @@ export enum ChangeType {
 export type PlanningChange = {
 	type: ChangeType;
 	item: Class;
+};
+
+export type CommandDetail = {
+	label: string;
+	icon: string;
+	value: string;
 };

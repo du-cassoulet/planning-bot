@@ -7,8 +7,8 @@ import mongoose from "mongoose";
 import Modal from "./Modal";
 
 export default class Client extends Discord.Client {
-	public commands: Discord.Collection<string, Command>;
-	public modals: Discord.Collection<string, Modal>;
+	public commands: Discord.Collection<string, Command & { file: string }>;
+	public modals: Discord.Collection<string, Modal & { file: string }>;
 
 	constructor() {
 		const intents = [
@@ -37,7 +37,7 @@ export default class Client extends Discord.Client {
 
 				return collection.set(
 					element.data.name ?? element.data.data?.custom_id,
-					element
+					{ ...element, file: dir }
 				);
 			}
 		});

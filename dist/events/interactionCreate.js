@@ -21,6 +21,12 @@ exports.default = new Event_1.default(discord_js_1.default.Events.InteractionCre
             return;
         return command.execute({ client, slash });
     }
+    else if (slash.isAutocomplete()) {
+        const command = client.commands.get(slash.commandName);
+        if (!(command === null || command === void 0 ? void 0 : command.autocomplete))
+            return;
+        return command.autocomplete({ client, slash });
+    }
     else if (slash.isModalSubmit()) {
         const modal = client.modals.get(slash.customId);
         if (!(modal === null || modal === void 0 ? void 0 : modal.execute))

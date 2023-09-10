@@ -38,6 +38,6 @@ exports.default = new Modal_1.default()
         });
         yield doc.save();
     }
-    client.emit(`emailUpdate-${slash.user.id}`);
+    client.emit(`emailUpdate-${slash.user.id}`, email);
     yield slash.deferUpdate();
 }));

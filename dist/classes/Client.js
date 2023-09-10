@@ -39,7 +39,7 @@ class Client extends discord_js_1.default.Client {
                 const element = require(dirPath).default;
                 if (!element.data)
                     return;
-                return collection.set((_a = element.data.name) !== null && _a !== void 0 ? _a : (_b = element.data.data) === null || _b === void 0 ? void 0 : _b.custom_id, element);
+                return collection.set((_a = element.data.name) !== null && _a !== void 0 ? _a : (_b = element.data.data) === null || _b === void 0 ? void 0 : _b.custom_id, Object.assign(Object.assign({}, element), { file: dir }));
             }
         });
     }

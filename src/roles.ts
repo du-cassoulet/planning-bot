@@ -1,88 +1,91 @@
 import { Campus } from "./types";
 
-export default {
-	[process.env.BUT1_SEN_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 1,
-		id: 14,
-		name: "BUT 1 Site Sénart",
-		url: "https://dynasis.iutsf.org/index.php?group_id=6&id=14",
-	},
-	[process.env.BUT1_FBL_GR1_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 1,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 1",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT1_FBL_GR2_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 2,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 2",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT1_FBL_GR3_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 3,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 3",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT1_FBL_GR4_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 4,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 4",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT1_FBL_GR5_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 5,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 5",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT1_FBL_GR6_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 6,
-		id: 50,
-		name: "BUT 1 Site Fontainebleau Groupe 6",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT2FA_FBL_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 1,
-		id: 52,
-		name: "BUT 2 Fa",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT2FI_FBL_GR1_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 1,
-		id: 51,
-		name: "BUT 2 Fi Groupe 1",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT2FI_FBL_GR2_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 2,
-		id: 51,
-		name: "BUT 2 Fi Groupe 2",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT2FI_FBL_GR3_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 3,
-		id: 51,
-		name: "BUT 2 Fi Groupe 3",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
-	[process.env.BUT3_FBL_ROLE_ID ?? ""]: {
-		type: Campus.Sen,
-		grp: 1,
-		id: 53,
-		name: "BUT 3",
-		url: "http://www.iut-fbleau.fr/EDT/consulter",
-	},
+export const SEN_URL = "https://dynasis.iutsf.org/index.php?group_id=6&id=14";
+export const FBL_URL = "http://www.iut-fbleau.fr/EDT/consulter";
+
+export class Promo {
+	public campus: Campus;
+	public grp: number;
+	public id: number;
+	private year: string;
+
+	constructor(year: string, campus: Campus, grp: number, id: number) {
+		this.campus = campus;
+		this.grp = grp;
+		this.id = id;
+		this.year = year;
+	}
+
+	public get url() {
+		return this.campus === Campus.Sen ? SEN_URL : FBL_URL;
+	}
+
+	public get name() {
+		return (
+			this.year +
+			" " +
+			(this.campus === Campus.Sen ? "Site Sénart" : "Site Fontainebleau") +
+			(this.grp > 0 ? ` Groupe ${this.grp}` : "")
+		);
+	}
+}
+
+const {
+	BUT1_OFF_SEN_ID,
+	BUT1_OFF_FBL_GR1_ID,
+	BUT1_OFF_FBL_GR2_ID,
+	BUT1_OFF_FBL_GR3_ID,
+	BUT1_OFF_FBL_GR4_ID,
+	BUT1_OFF_FBL_GR5_ID,
+	BUT1_OFF_FBL_GR6_ID,
+	BUT2FA_OFF_FBL_ID,
+	BUT2FI_OFF_FBL_GR1_ID,
+	BUT2FI_OFF_FBL_GR2_ID,
+	BUT2FI_OFF_FBL_GR3_ID,
+	BUT3_OFF_FBL_ID,
+
+	BUT1_POV_SEN_ID,
+	BUT1_POV_FBL_GR1_ID,
+	BUT1_POV_FBL_GR2_ID,
+	BUT1_POV_FBL_GR3_ID,
+	BUT1_POV_FBL_GR4_ID,
+	BUT1_POV_FBL_GR5_ID,
+	BUT1_POV_FBL_GR6_ID,
+	BUT2FA_POV_FBL_ID,
+	BUT2FI_POV_FBL_GR1_ID,
+	BUT2FI_POV_FBL_GR2_ID,
+	BUT2FI_POV_FBL_GR3_ID,
+	BUT3_POV_FBL_ID,
+} = process.env;
+
+export const Off = {
+	[<string>BUT1_OFF_SEN_ID]: new Promo("BUT 1", Campus.Sen, 0, 14),
+	[<string>BUT1_OFF_FBL_GR1_ID]: new Promo("BUT 1", Campus.Fbl, 1, 50),
+	[<string>BUT1_OFF_FBL_GR2_ID]: new Promo("BUT 1", Campus.Fbl, 2, 50),
+	[<string>BUT1_OFF_FBL_GR3_ID]: new Promo("BUT 1", Campus.Fbl, 3, 50),
+	[<string>BUT1_OFF_FBL_GR4_ID]: new Promo("BUT 1", Campus.Fbl, 4, 50),
+	[<string>BUT1_OFF_FBL_GR5_ID]: new Promo("BUT 1", Campus.Fbl, 5, 50),
+	[<string>BUT1_OFF_FBL_GR6_ID]: new Promo("BUT 1", Campus.Fbl, 6, 50),
+	[<string>BUT2FA_OFF_FBL_ID]: new Promo("BUT 2 Fa", Campus.Fbl, 1, 52),
+	[<string>BUT2FI_OFF_FBL_GR1_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 1, 51),
+	[<string>BUT2FI_OFF_FBL_GR2_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 2, 51),
+	[<string>BUT2FI_OFF_FBL_GR3_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 3, 51),
+	[<string>BUT3_OFF_FBL_ID]: new Promo("BUT 3", Campus.Fbl, 1, 53),
 };
+
+export const Pov = {
+	[<string>BUT1_POV_SEN_ID]: new Promo("BUT 1", Campus.Sen, 0, 14),
+	[<string>BUT1_POV_FBL_GR1_ID]: new Promo("BUT 1", Campus.Fbl, 1, 50),
+	[<string>BUT1_POV_FBL_GR2_ID]: new Promo("BUT 1", Campus.Fbl, 2, 50),
+	[<string>BUT1_POV_FBL_GR3_ID]: new Promo("BUT 1", Campus.Fbl, 3, 50),
+	[<string>BUT1_POV_FBL_GR4_ID]: new Promo("BUT 1", Campus.Fbl, 4, 50),
+	[<string>BUT1_POV_FBL_GR5_ID]: new Promo("BUT 1", Campus.Fbl, 5, 50),
+	[<string>BUT1_POV_FBL_GR6_ID]: new Promo("BUT 1", Campus.Fbl, 6, 50),
+	[<string>BUT2FA_POV_FBL_ID]: new Promo("BUT 2 Fa", Campus.Fbl, 1, 52),
+	[<string>BUT2FI_POV_FBL_GR1_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 1, 51),
+	[<string>BUT2FI_POV_FBL_GR2_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 2, 51),
+	[<string>BUT2FI_POV_FBL_GR3_ID]: new Promo("BUT 2 Fi", Campus.Fbl, 3, 51),
+	[<string>BUT3_POV_FBL_ID]: new Promo("BUT 3", Campus.Fbl, 1, 53),
+};
+
+export default { ...Off, ...Pov };
