@@ -83,7 +83,6 @@ export default new Command()
 					)}\n\nLe code source de cette commande est disponible sur [cette page](https://github.com/du-cassoulet/planning-bot/blob/main/src/commands/${
 					command.file
 				}).`,
-				ephemeral: true,
 			});
 		} else {
 			await client.application?.fetch();
@@ -97,7 +96,6 @@ export default new Command()
 					.join(
 						"\n"
 					)}\n## <:neonredactivedev:1150389568911192164> Comment ça fonctionne ?\nLe bot utilise le langage de programmation [TypeScript](<https://www.typescriptlang.org>) compilé en [JavaScript](<https://fr.wikipedia.org/wiki/JavaScript>) et interprété par [Node.js](<https://nodejs.org>). Il utilise [discord.js](<https://discord.js.org>) pour se connecter au [WebSocket](<https://fr.wikipedia.org/wiki/WebSocket>) de discord. Afin de stocker les données essentielles comme l'adresse email ou encore la promo de l'étudiant, une base de données [NoSQL](<https://fr.wikipedia.org/wiki/NoSQL>) [Mongo DB](<https://www.mongodb.com>) est utilisée.\n\nLe code source de cette commande est disponible sur [cette page](https://github.com/du-cassoulet/planning-bot).`,
-				ephemeral: true,
 			});
 		}
 	});

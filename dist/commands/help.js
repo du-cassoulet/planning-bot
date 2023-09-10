@@ -61,14 +61,12 @@ exports.default = new Command_1.default()
         const commandId = (_b = (_a = client.application) === null || _a === void 0 ? void 0 : _a.commands.cache.find((c) => { var _a; return c.name === ((_a = command.data) === null || _a === void 0 ? void 0 : _a.name); })) === null || _b === void 0 ? void 0 : _b.id;
         return slash.reply({
             content: `# <:info:1089119342756638730> Aide pour la commande </${(_c = command.data) === null || _c === void 0 ? void 0 : _c.name}:${commandId}>\n*${(_d = command.data) === null || _d === void 0 ? void 0 : _d.description}*\n\n${(_f = (_e = command.details) === null || _e === void 0 ? void 0 : _e.documentation) === null || _f === void 0 ? void 0 : _f.map((d) => `## ${d.icon} ${d.label}\n${d.value}`).join("\n")}\n\nLe code source de cette commande est disponible sur [cette page](https://github.com/du-cassoulet/planning-bot/blob/main/src/commands/${command.file}).`,
-            ephemeral: true,
         });
     }
     else {
         yield ((_g = client.application) === null || _g === void 0 ? void 0 : _g.fetch());
         return slash.reply({
             content: `# <:info:1089119342756638730> Aide générale\n*${(_h = client.user) === null || _h === void 0 ? void 0 : _h.toString()} est un bot crée bénévolement par ${(_k = (_j = client.application) === null || _j === void 0 ? void 0 : _j.owner) === null || _k === void 0 ? void 0 : _k.toString()} qui à pour but de faciliter l'accès et l'utilisation de l'emploi du temps.*\n## <:neonredbot:1150502017605828780> Commandes disponibles\n${(_l = client.application) === null || _l === void 0 ? void 0 : _l.commands.cache.map((command) => `- </${command.name}:${command.id}> *${command.description}*`).join("\n")}\n## <:neonredactivedev:1150389568911192164> Comment ça fonctionne ?\nLe bot utilise le langage de programmation [TypeScript](<https://www.typescriptlang.org>) compilé en [JavaScript](<https://fr.wikipedia.org/wiki/JavaScript>) et interprété par [Node.js](<https://nodejs.org>). Il utilise [discord.js](<https://discord.js.org>) pour se connecter au [WebSocket](<https://fr.wikipedia.org/wiki/WebSocket>) de discord. Afin de stocker les données essentielles comme l'adresse email ou encore la promo de l'étudiant, une base de données [NoSQL](<https://fr.wikipedia.org/wiki/NoSQL>) [Mongo DB](<https://www.mongodb.com>) est utilisée.\n\nLe code source de cette commande est disponible sur [cette page](https://github.com/du-cassoulet/planning-bot).`,
-            ephemeral: true,
         });
     }
 }));

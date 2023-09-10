@@ -46,6 +46,7 @@ exports.default = new Command_1.default()
     for (const [roleId] of ((_a = slash.member) === null || _a === void 0 ? void 0 : _a.roles).cache) {
         if (roleId in roles_1.default) {
             promo = roles_1.default[roleId];
+            break;
         }
     }
     if (!promo) {

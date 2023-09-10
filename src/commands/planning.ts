@@ -50,6 +50,7 @@ export default new Command()
 		).cache) {
 			if (roleId in roles) {
 				promo = roles[roleId];
+				break;
 			}
 		}
 
