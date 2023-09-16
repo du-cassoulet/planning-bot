@@ -10,7 +10,7 @@ export default new Command()
 		slash
 			.setName("notify")
 			.setDescription(
-				"Pour recevoir des notifications lors des modifications de l'emoloi du temps."
+				"Pour recevoir des notifications lors des modifications de l'emploi du temps."
 			)
 			.setDMPermission(false)
 			.setNSFW(false)
@@ -33,7 +33,7 @@ export default new Command()
 				label: "Comment ça fonctionne ?",
 				icon: "<:neonredactivedev:1150389568911192164>",
 				value:
-					"Tout d'abord, le programme recherche si l'utilisateur possède un **role** indiquand sa promo, si non, une **erreur** est renvoyée. Ensuite un message comportant **deux boutons** est envoyé, un [component collector](<https://tinyurl.com/29m8az8r>) récolte chaque **interactions de boutons** et fait basculer les valeurs corresondantes au **type** de notifications dans la [base de données](<https://www.mongodb.com>). Une boucle d'intervale de 5 minutes se lance lorsque l'évènement [ready](<https://tinyurl.com/4av9cen6>) vérifie quels cours ont été changés et envoie une notification aux utilisateurs ayant les valeurs correspondantes dans la base de données.",
+					"Tout d'abord, le programme recherche si l'utilisateur possède un **role** indiquant sa promo, si non, une **erreur** est renvoyée. Ensuite un message comportant **deux boutons** est envoyé, un [component collector](<https://tinyurl.com/29m8az8r>) récolte chaque **interactions de boutons** et fait basculer les valeurs corresondantes au **type** de notifications dans la [base de données](<https://www.mongodb.com>). Une boucle d'intervalle de 5 minutes se lance lorsque l'évènement [ready](<https://tinyurl.com/4av9cen6>) vérifie quels cours ont été changés et envoie une notification aux utilisateurs ayant les valeurs correspondantes dans la base de données.",
 			}
 		)
 	)

@@ -31,7 +31,7 @@ export default new Command()
 				label: "A quoi ça sert ?",
 				icon: "<:neonredsparkles:1150387167735070870>",
 				value:
-					"Cette commande permet d'afficher **l'emploi du temps** de votre promo sous forme d'une image contenant tous les cours d'une semaine.\n**Deux boutons** vous permettront **d'avancer** ou de **reculer** d'une semaine, vous ne pouvez pas voir l'emploi du temps d'une semaine déjà passée et vous ne pouvez voir que de 10 semaines en avance.",
+					"Cette commande permet d'afficher **l'emploi du temps** de votre promo sous forme d'une image contenant tout les cours d'une semaine.\n**Deux boutons** vous permettront **d'avancer** ou de **reculer** d'une semaine, vous ne pouvez pas voir l'emploi du temps d'une semaine déjà passée et vous ne pouvez voir que de 10 semaines en avance.",
 			},
 			{
 				label: "Comment ça fonctionne ?",

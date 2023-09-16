@@ -34,7 +34,7 @@ export default new Command()
 				label: "Comment ça fonctionne ?",
 				icon: "<:neonredactivedev:1150389568911192164>",
 				value:
-					"Le programme verifie si une **valeur** a été attribuée à l'argument \"commande\". Si oui, le nom de la commande est recherché dans la **liste des commandes** disponibles, si elle n'est **pas** trouvée, une **erreur** s'affichera. Sinon, les données de cette commande seront affichées en format **textuel lisible et compréhensible**. Si **aucune** valeur de lui est attribuée, le programme affichera la **liste des commandes**, leur **description** ainsi que quelques **informations complémentaires** sur le bot.",
+					"Le programme verifie si une **valeur** a été attribuée à l'argument \"commande\". Si oui, le nom de la commande est recherché dans la **liste des commandes** disponibles, si elle n'est **pas** trouvée, une **erreur** s'affichera. Sinon, les données de cette commande seront affichées en format **textuel lisible et compréhensible**. Si **aucune** valeur ne lui est attribuée, le programme affichera la **liste des commandes**, leur **description** ainsi que quelques **informations complémentaires** sur le bot.",
 			}
 		)
 	)
@@ -88,7 +88,7 @@ export default new Command()
 			await client.application?.fetch();
 
 			return slash.reply({
-				content: `# <:info:1089119342756638730> Aide générale\n*${client.user?.toString()} est un bot crée bénévolement par ${client.application?.owner?.toString()} qui à pour but de faciliter l'accès et l'utilisation de l'emploi du temps.*\n## <:neonredbot:1150502017605828780> Commandes disponibles\n${client.application?.commands.cache
+				content: `# <:info:1089119342756638730> Aide générale\n*${client.user?.toString()} est un bot créé bénévolement par ${client.application?.owner?.toString()} qui a pour but de faciliter l'accès et l'utilisation de l'emploi du temps.*\n## <:neonredbot:1150502017605828780> Commandes disponibles\n${client.application?.commands.cache
 					.map(
 						(command) =>
 							`- </${command.name}:${command.id}> *${command.description}*`
