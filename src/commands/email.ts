@@ -16,7 +16,7 @@ export default new Command()
 				label: "Comment l'utiliser ?",
 				icon: "<:neonredcheckmark:1150387169882554379>",
 				value:
-					"Directement après avoir exécuté l'application, une page dans laquelle une **adresse email** est demandée s'ouvre. Il vous suffit simplement de rentrer une **adresse email** sur laquelle vous souhaiteriez recevoir des **notifications**, accepter. L'email sera directement **enregistrée** dans la **base de données**.",
+					"Directement après avoir exécuté l'application, une page dans laquelle une **adresse email** est demandée s'ouvre. Il vous suffit simplement de rentrer une **adresse email** sur laquelle vous souhaiteriez recevoir des **notifications**, puis d'accepter. L'email sera directement **enregistrée** dans la **base de données**.",
 			},
 			{
 				label: "A quoi ça sert ?",
